@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { Trash, Upload } from "lucide-react";
 import { Model3d } from "@prisma/client";
 import { useParams, useRouter } from "next/navigation";
 
@@ -21,12 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import { Heading } from "@/components/ui/Heading";
-import { AlertModal } from "@/components/modals/AlertModal";
 import UploadModel from "@/components/UploadModel";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { set } from "date-fns";
 
 const formSchema = z.object({
   label: z.string().min(1),
@@ -46,7 +40,6 @@ export const Model3dForm: React.FC<Model3dFormProps> = ({ initialData }) => {
 
   const [loading, setLoading] = useState(false);
   const [uploadModelDisplay, setUploadModelDisplay] = useState(false);
-  const [iframeDisplay, setIframeDisplay] = useState(false);
 
   const toastMessage = initialData ? "Model 3D updated." : "Model 3D created.";
   const action = initialData ? "Save changes" : "Create";
@@ -57,11 +50,17 @@ export const Model3dForm: React.FC<Model3dFormProps> = ({ initialData }) => {
 
   const form = useForm<Model3dFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      label: "",
-      url: "",
-      iframeUrl: "",
-    },
+    defaultValues: initialData
+      ? {
+          label: initialData.label ?? "",
+          url: initialData.url ?? "",
+          iframeUrl: initialData.iframeUrl ?? "",
+        }
+      : {
+          label: "",
+          url: "",
+          iframeUrl: "",
+        },
   });
 
   const verifyUrls = (iframeUrl: string, url: string) => {
@@ -122,10 +121,6 @@ export const Model3dForm: React.FC<Model3dFormProps> = ({ initialData }) => {
     setUploadModelDisplay(!uploadModelDisplay);
     if (uploadModelDisplay) setLoading(false);
     if (!uploadModelDisplay) setLoading(true);
-  };
-
-  const handleiframeDisplay = () => {
-    setIframeDisplay(true);
   };
 
   return (

@@ -23,7 +23,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "@/components/ui/Heading";
 import { AlertModal } from "@/components/modals/AlertModal";
-import { useOrigin } from "@/hooks/UseOrigin";
 
 const formSchema = z.object({
   name: z.string().min(2),
@@ -38,7 +37,6 @@ interface SettingsFormProps {
 export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
