@@ -17,9 +17,9 @@ const Models3dPage = async ({ params }: { params: { sellerId: string } }) => {
 
   const formattedModels3d: Model3dColumn[] = models3d.map((item) => ({
     id: item.id,
-    label: item.label,
+    label: item.label ?? "",
     iframeUrl: item.iframeUrl,
-    url: item.url,
+    url: item.url ?? "",
     createdAt: format(item.createdAt, "MMMM do, yyyy"),
   }));
 
