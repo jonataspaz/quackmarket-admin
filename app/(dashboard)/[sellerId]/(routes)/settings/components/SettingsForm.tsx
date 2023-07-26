@@ -23,7 +23,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Heading } from "@/components/ui/Heading";
 import { AlertModal } from "@/components/modals/AlertModal";
-import { useOrigin } from "@/hooks/use-origin";
+import { useOrigin } from "@/hooks/UseOrigin";
 
 const formSchema = z.object({
   name: z.string().min(2),
