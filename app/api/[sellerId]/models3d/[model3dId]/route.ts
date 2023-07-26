@@ -20,7 +20,7 @@ export async function GET(
 
     return NextResponse.json(model3d);
   } catch (error) {
-    console.log("[MODEL_3D_GET]", error);
+    console.log("[MODEL_3D2_GET]", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }

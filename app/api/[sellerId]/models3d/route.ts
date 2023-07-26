@@ -69,7 +69,7 @@ export async function GET(
 
     return NextResponse.json(models3d);
   } catch (error) {
-    console.log("[SIZES_GET]", error);
+    console.log("[MODEL3D_GET]1", error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
