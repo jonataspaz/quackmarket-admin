@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+model Seller {
+  id String @id @default(auto()) @map ( "_id" ) @db.ObjectId
+  name String
+  userId String
+  product Product[] @relation("SellerToProduct")
+  model3d Model3d[] @relation("SellerToModel3d")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id String @id @default(auto()) @map ( "_id" ) @db.ObjectId
+  sellerId String @db.ObjectId
+  seller Seller @relation("SellerToProduct",fields: [sellerId], references: [id])
+  name String
+  price Float
+  isFeatured Boolean @default(false)
+  isArchived Boolean @default(false)
+  images Image[]
+  categoryId String @db.ObjectId
+  category Category @relation(fields: [categoryId], references: [id])
+  model3dId String @db.ObjectId
+  model3d Model3d @relation(fields: [model3dId], references: [id])
+  description String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id String @id @default(auto()) @map ( "_id" ) @db.ObjectId
+  name         String
+  products Product[]
+}
+
+model Image {
+  id String @id @default(auto()) @map ( "_id" ) @db.ObjectId
+  productId String @db.ObjectId
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Model3d {
+  id String @id @default(auto()) @map ( "_id" ) @db.ObjectId
+  sellerId String @db.ObjectId
+  seller Seller @relation("SellerToModel3d", fields: [sellerId], references: [id])
+  products Product[]
+  label String?
+  url String?
+  iframeUrl String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
